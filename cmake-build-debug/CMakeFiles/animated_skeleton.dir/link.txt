@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/animated_skeleton.dir/main.cpp.o CMakeFiles/animated_skeleton.dir/Bone.cpp.o CMakeFiles/animated_skeleton.dir/Game.cpp.o CMakeFiles/animated_skeleton.dir/Scene.cpp.o CMakeFiles/animated_skeleton.dir/Skeleton.cpp.o -o animated_skeleton  -lglut -lGL -lGLU -lGLEW -lglfw 

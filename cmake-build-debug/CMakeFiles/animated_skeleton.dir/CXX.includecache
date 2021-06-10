@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/amir/projects/gameDesign/animated_skeleton/Bone.h
+string
+-
+vector
+-
+glm/glm.hpp
+/home/amir/projects/gameDesign/animated_skeleton/glm/glm.hpp
+glm/gtc/type_ptr.hpp
+/home/amir/projects/gameDesign/animated_skeleton/glm/gtc/type_ptr.hpp
+
+/home/amir/projects/gameDesign/animated_skeleton/Scene.cpp
+Scene.h
+/home/amir/projects/gameDesign/animated_skeleton/Scene.h
+GL/glew.h
+-
+iostream
+-
+algorithm
+-
+
+/home/amir/projects/gameDesign/animated_skeleton/Scene.h
+Skeleton.h
+/home/amir/projects/gameDesign/animated_skeleton/Skeleton.h
+Vertex.h
+/home/amir/projects/gameDesign/animated_skeleton/Vertex.h
+
+/home/amir/projects/gameDesign/animated_skeleton/Skeleton.h
+Bone.h
+/home/amir/projects/gameDesign/animated_skeleton/Bone.h
+map
+-
+
+/home/amir/projects/gameDesign/animated_skeleton/Vertex.h
+

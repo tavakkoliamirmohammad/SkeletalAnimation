@@ -1,0 +1,3 @@
+/home/amir/projects/gameDesign/animated_skeleton/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/amir/projects/gameDesign/animated_skeleton/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/amir/projects/gameDesign/animated_skeleton/cmake-build-debug/CMakeFiles/animated_skeleton.dir
