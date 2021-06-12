@@ -12,7 +12,7 @@ public:
         this->skeleton = new Skeleton();
     }
 
-    void addBone(std::string parent, std::string boneName, int length, float angle);
+    void addBone(const std::string& parent, std::string boneName, int length, float angle);
 
     Bone *getBone(const std::string& boneName);
 
@@ -22,7 +22,7 @@ public:
 
     Bone *getSelectedBone();
 
-    void selectBone(std::string boneName);
+    void selectBone(const std::string& boneName);
 
     void selectBone(int boneIndex);
 

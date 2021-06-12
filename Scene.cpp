@@ -7,7 +7,7 @@
 #include <algorithm>
 
 
-void Scene::addBone(std::string parent, std::string boneName, int length, float angle) {
+void Scene::addBone(const std::string& parent, std::string boneName, int length, float angle) {
     Bone *parentBone = this->getBone(parent);
 
     Bone *bone = new Bone(length, boneName);
@@ -28,7 +28,7 @@ int Scene::getCount() {
     return this->skeleton->getBoneNames().size();
 }
 
-void Scene::selectBone(std::string boneName) {
+void Scene::selectBone(const std::string& boneName) {
     auto bone = this->getBone(boneName);
     if (bone != nullptr) {
         this->selectedBone = bone;
@@ -70,14 +70,14 @@ void Scene::inverseKinematic(glm::vec2 pos) {
 
     auto boneNames = skeleton->getBoneNames();
     std::reverse(boneNames.begin(), boneNames.end());
-    for (const auto &boneName : boneNames) {
+    for (auto boneName : boneNames) {
         Bone *bone = this->getBone(boneName);
         glm::vec3 animatedStartPos;
         animatedStartPos = bone->transform_from_bonespace_animated(glm::vec3(0, 0, 0));
 
-        // glm::vec3 unanimatedStartPos, unanimatedEndPos;
-        // unanimatedStartPos = bone->transform_from_bonespace_animated_without_local_transformation(glm::vec3(0, 0, 0));
-        // unanimatedStartPos = bone->transform_from_bonespace_animated_without_local_transformation(glm::vec3(endEffectorBone->getLength(), 0, 0));
+        glm::vec3 animatedEndEffector;
+        animatedEndEffector = endEffectorBone->transform_from_bonespace_animated(
+                glm::vec3(endEffectorBone->getLength(), 0, 0));
 
         auto u = glm::length(animatedEndEffector - animatedStartPos);
         auto f = glm::length(target - animatedStartPos);
@@ -85,16 +85,20 @@ void Scene::inverseKinematic(glm::vec2 pos) {
 
         auto alpha = glm::acos((u * u + f * f - g * g) / (2 * u * f));
 
-        auto prev_theta = endEffectorBone->getTheta();
+        auto prev_theta = bone->getTheta();
 
         auto v1 = animatedEndEffector - animatedStartPos;
         auto v2 = target - animatedStartPos;
-        // auto v3 = unanimatedEndPos - unanimatedStartPos;
 
         auto crossprod = glm::cross(v1, v2);
-        // auto crossprod2 = glm::cross(v3, v1);
-        // auto crossprod3 = glm::cross(v3, v2);
 
+        auto alpha_back = alpha;
+
+        // if (alpha < 0.1)
+        // {
+
+        //     break;
+        // }
 
         if (crossprod.z > 0) {
             alpha += prev_theta.z;
@@ -109,16 +113,10 @@ void Scene::inverseKinematic(glm::vec2 pos) {
             }
         }
 
-        std::cout << alpha << std::endl;
-
-        glm::mat4 rot = glm::identity<glm::mat4>();
-        rot = glm::rotate(rot, alpha, glm::vec3(0, 0, 1));
-        auto temp = rot * glm::vec4(animatedEndEffector, 1);
-        animatedEndEffector = glm::vec3(temp.x / temp.w, temp.y / temp.w, temp.z / temp.w);
-
         bone->rotate(glm::vec3(0, 0, alpha));
-    }
 
+        bone->calculate_mi_a();
+    }
 }
 
 void Scene::init() {
