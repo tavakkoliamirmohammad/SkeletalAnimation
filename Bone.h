@@ -14,7 +14,7 @@ class Bone {
 public:
     Bone(int length, std::string name) : name(std::move(name)), length(length), parent(nullptr), mi_d(1), mi_p(1),
                                          mi_l(1),
-                                         mi_a(1), t(0), quat(0, 0, 0, 0) {
+                                         mi_a(1), t(0), quat(1, 0, 0, 0) {
     }
 
     void rotate(glm::vec3 rotate);

@@ -5,12 +5,12 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <algorithm>
-#include "hash_map"
+#include <utility>
 
 void Scene::addBone(const std::string &parent, std::string boneName, int length, float angle) {
     Bone *parentBone = this->getBone(parent);
 
-    Bone *bone = new Bone(length, boneName);
+    Bone *bone = new Bone(length, std::move(boneName));
 
     this->skeleton->addBone(parentBone, bone, glm::vec3(), glm::vec3(0, 0, angle));
 }
@@ -57,7 +57,7 @@ void Scene::rotateSelectedBone(float delta_theta) {
 }
 
 void Scene::setSkin(std::vector<Vertex> skin) {
-    this->skin = skin;
+    this->skin = std::move(skin);
 }
 
 void Scene::inverseKinematic(glm::vec2 pos) {

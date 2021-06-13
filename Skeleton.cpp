@@ -48,9 +48,7 @@ void Skeleton::update_mi_l(float animatedTime) {
     auto prevKeyFrame = keyFrames[index];
     auto nextKeyFrame = keyFrames[index + 1];
     for (const auto &name: boneNames) {
-        auto a = glm::mat4_cast(slerp(prevKeyFrame[name], nextKeyFrame[name], 1 - (time - animatedTime) / 5000));
-//        std::cout << glm::atan(a[0][1], a[0][0]) << std::endl;
-        this->getBone(name)->rotate(a);
+        this->getBone(name)->rotate(glm::slerp(prevKeyFrame[name], nextKeyFrame[name], 1 - (time - animatedTime) / 5000));
     }
 }
 
@@ -64,5 +62,6 @@ void Skeleton::setKeyFrame() {
 
 glm::quat Skeleton::slerp(glm::quat q1, glm::quat q2, float u) {
     const float theta = glm::acos(glm::dot(q1, q2));
+    std::cout << theta << std::endl;
     return sinf((1 - u) * theta) / (sinf(theta) + 0.00001f) * q1 + sinf(u * theta) / (sinf(theta) + 0.00001f) * q2;
 }

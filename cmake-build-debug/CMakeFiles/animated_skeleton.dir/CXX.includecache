@@ -18,12 +18,26 @@ glm/glm.hpp
 glm/gtc/type_ptr.hpp
 /home/amir/projects/gameDesign/animated_skeleton/glm/gtc/type_ptr.hpp
 
-/home/amir/projects/gameDesign/animated_skeleton/Skeleton.cpp
-Skeleton.h
-/home/amir/projects/gameDesign/animated_skeleton/Skeleton.h
+/home/amir/projects/gameDesign/animated_skeleton/Scene.cpp
+Scene.h
+/home/amir/projects/gameDesign/animated_skeleton/Scene.h
+GL/glew.h
+-
 iostream
 -
-cmath
+algorithm
+-
+utility
+-
+
+/home/amir/projects/gameDesign/animated_skeleton/Scene.h
+Skeleton.h
+/home/amir/projects/gameDesign/animated_skeleton/Skeleton.h
+Vertex.h
+/home/amir/projects/gameDesign/animated_skeleton/Vertex.h
+map
+-
+chrono
 -
 
 /home/amir/projects/gameDesign/animated_skeleton/Skeleton.h
@@ -31,4 +45,6 @@ Bone.h
 /home/amir/projects/gameDesign/animated_skeleton/Bone.h
 map
 -
+
+/home/amir/projects/gameDesign/animated_skeleton/Vertex.h
 
