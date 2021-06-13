@@ -1,5 +1,6 @@
 #include "Skeleton.h"
 #include <iostream>
+#include <cmath>
 
 void Skeleton::addBone(Bone *parent, Bone *bone, glm::vec3 translation, glm::vec3 rotation) {
     if (parent == nullptr) {
@@ -42,7 +43,7 @@ void Skeleton::calculate_mi_a() {
 
 void Skeleton::update_mi_l(float animatedTime) {
     int index = animatedTime / 5000;
-    if (index == numberOfKeyFrames - 1) return;
+    if (index >= numberOfKeyFrames - 1) return;
     float time = (index + 1) * 5000.0;
     auto prevKeyFrame = keyFrames[index];
     auto nextKeyFrame = keyFrames[index + 1];

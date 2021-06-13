@@ -22,7 +22,7 @@ void Game::keyCallback(GLFWwindow *window, int key, int scancode, int action, in
     } else if (key == GLFW_KEY_K && action == GLFW_PRESS) {
         scene->setKeyFrame();
     }
-    else if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+    else if (key == GLFW_KEY_P && action == GLFW_PRESS) {
         scene->startAnimation();
     }
 }
