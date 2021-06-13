@@ -19,6 +19,11 @@ void Game::keyCallback(GLFWwindow *window, int key, int scancode, int action, in
         scene->selectBone(key - GLFW_KEY_1);
     } else if (key == GLFW_KEY_F && action == GLFW_PRESS) {
         inverse_kinematic = !inverse_kinematic;
+    } else if (key == GLFW_KEY_K && action == GLFW_PRESS) {
+        scene->setKeyFrame();
+    }
+    else if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+        scene->startAnimation();
     }
 }
 

@@ -1,6 +1,5 @@
 #ifndef ANIMATED_SKELETON_BONE_H
 #define ANIMATED_SKELETON_BONE_H
-#pragma once
 
 #include <string>
 #include <utility>
@@ -13,11 +12,14 @@ class Bone {
     friend class Skeleton;
 
 public:
-    Bone(int length, std::string name) : name(std::move(name)), length(length), parent(nullptr), mi_d(1), mi_p(1), mi_l(1),
+    Bone(int length, std::string name) : name(std::move(name)), length(length), parent(nullptr), mi_d(1), mi_p(1),
+                                         mi_l(1),
                                          mi_a(1), t(0), quat(0, 0, 0, 0) {
     }
 
     void rotate(glm::vec3 rotate);
+
+    void rotate(glm::quat quat);
 
     void calculate_mi_d();
 
@@ -34,6 +36,8 @@ public:
     glm::vec3 transform_from_bonespace_default_pose(glm::vec3 vertex);
 
     glm::vec3 getTheta();
+
+    glm::quat getQuat();
 
     inline int getLength() { return this->length; }
 

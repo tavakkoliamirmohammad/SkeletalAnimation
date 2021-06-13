@@ -5,9 +5,9 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <algorithm>
+#include "hash_map"
 
-
-void Scene::addBone(const std::string& parent, std::string boneName, int length, float angle) {
+void Scene::addBone(const std::string &parent, std::string boneName, int length, float angle) {
     Bone *parentBone = this->getBone(parent);
 
     Bone *bone = new Bone(length, boneName);
@@ -28,7 +28,7 @@ int Scene::getCount() {
     return this->skeleton->getBoneNames().size();
 }
 
-void Scene::selectBone(const std::string& boneName) {
+void Scene::selectBone(const std::string &boneName) {
     auto bone = this->getBone(boneName);
     if (bone != nullptr) {
         this->selectedBone = bone;
@@ -124,6 +124,11 @@ void Scene::init() {
 }
 
 void Scene::update() {
+    if (isAnimating) {
+        auto currentTime = std::chrono::system_clock::now();
+        std::chrono::duration<double> diff = currentTime - start;
+        this->skeleton->update_mi_l(std::chrono::duration_cast<std::chrono::milliseconds>(diff).count());
+    }
     this->skeleton->calculate_mi_a();
 
     for (Vertex &vert : this->skin) {
@@ -181,4 +186,13 @@ void Scene::render() {
         glVertex2d(vert.animated_x, vert.animated_y);
     }
     glEnd();
+}
+
+void Scene::setKeyFrame() {
+    this->skeleton->setKeyFrame();
+}
+
+void Scene::startAnimation() {
+    this->isAnimating = true;
+    this->start = std::chrono::system_clock::now();
 }
