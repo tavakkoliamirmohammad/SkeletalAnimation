@@ -63,15 +63,15 @@ void Scene::setSkin(std::vector<Vertex> skin) {
 void Scene::inverseKinematic(glm::vec2 pos) {
     auto target = glm::vec3(pos.x, pos.y, 1);
     Bone *endEffectorBone = this->getBone(this->getCount() - 1);
-    glm::vec3 animatedEndEffector;
-    animatedEndEffector = endEffectorBone->transform_from_bonespace(
+    glm::vec3 endEffectorVec;
+    endEffectorVec = endEffectorBone->transform_from_bonespace(
             glm::vec3(endEffectorBone->getLength(), 0, 0));
 
     auto boneNames = skeleton->getBoneNames();
     std::reverse(boneNames.begin(), boneNames.end());
     int iteration = 0;
 
-    while (glm::length(target - animatedEndEffector) >= 3 && iteration++ < 4) {
+    while (glm::length(target - endEffectorVec) >= 3 && iteration++ < 4) {
         for (const auto &boneName : boneNames) {
             Bone *bone = this->getBone(boneName);
             glm::vec3 boneStartPosition = bone->transform_from_bonespace(glm::vec3(0, 0, 0));
