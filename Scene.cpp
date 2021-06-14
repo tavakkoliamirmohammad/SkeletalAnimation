@@ -62,7 +62,6 @@ void Scene::setSkin(std::vector<Vertex> skin) {
 
 void Scene::inverseKinematic(glm::vec2 pos) {
     auto target = glm::vec3(pos.x, pos.y, 1);
-
     Bone *endEffectorBone = this->getBone(this->getCount() - 1);
     glm::vec3 animatedEndEffector;
     animatedEndEffector = endEffectorBone->transform_from_bonespace_animated(
@@ -70,52 +69,38 @@ void Scene::inverseKinematic(glm::vec2 pos) {
 
     auto boneNames = skeleton->getBoneNames();
     std::reverse(boneNames.begin(), boneNames.end());
-    for (auto boneName : boneNames) {
-        Bone *bone = this->getBone(boneName);
-        glm::vec3 animatedStartPos;
-        animatedStartPos = bone->transform_from_bonespace_animated(glm::vec3(0, 0, 0));
+    int iteration = 0;
 
-        glm::vec3 animatedEndEffector;
-        animatedEndEffector = endEffectorBone->transform_from_bonespace_animated(
-                glm::vec3(endEffectorBone->getLength(), 0, 0));
+    while (glm::length(target - animatedEndEffector) >= 3 && iteration++ < 4) {
+        for (const auto &boneName : boneNames) {
+            Bone *bone = this->getBone(boneName);
+            glm::vec3 boneStartPosition = bone->transform_from_bonespace_animated(glm::vec3(0, 0, 0));
 
-        auto u = glm::length(animatedEndEffector - animatedStartPos);
-        auto f = glm::length(target - animatedStartPos);
-        auto g = glm::length(target - animatedEndEffector);
+            glm::vec3 endEffectorPosition = endEffectorBone->transform_from_bonespace_animated(
+                    glm::vec3(endEffectorBone->getLength(), 0, 0));
 
-        auto alpha = glm::acos((u * u + f * f - g * g) / (2 * u * f));
+            auto u = glm::length(endEffectorPosition - boneStartPosition);
+            auto f = glm::length(target - boneStartPosition);
+            auto g = glm::length(target - endEffectorPosition);
 
-        auto prev_theta = bone->getTheta();
+            auto alpha = glm::acos((u * u + f * f - g * g) / (2 * u * f));
 
-        auto v1 = animatedEndEffector - animatedStartPos;
-        auto v2 = target - animatedStartPos;
+            auto theta = bone->getTheta().z;
 
-        auto crossprod = glm::cross(v1, v2);
+            auto a = endEffectorPosition - boneStartPosition;
+            auto b = target - boneStartPosition;
 
-        auto alpha_back = alpha;
-
-        // if (alpha < 0.1)
-        // {
-
-        //     break;
-        // }
-
-        if (crossprod.z > 0) {
-            alpha += prev_theta.z;
-
-            if (alpha > 2 * glm::pi<double>()) {
-                alpha -= 2 * glm::pi<double>();
+            auto crossProduct = glm::cross(a, b);
+            if (crossProduct.z > 0) {
+                alpha += theta;
+            } else {
+                alpha = theta - alpha;
             }
-        } else {
-            alpha = prev_theta.z - alpha;
-            if (alpha < 0) {
-                alpha += 2 * glm::pi<double>();
-            }
+            if (glm::abs(alpha) < 0.001) continue;
+            bone->rotate(glm::vec3(0, 0, alpha));
+            bone->calculate_mi_a();
         }
 
-        bone->rotate(glm::vec3(0, 0, alpha));
-
-        bone->calculate_mi_a();
     }
 }
 

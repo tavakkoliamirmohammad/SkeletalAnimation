@@ -60,7 +60,6 @@ private:
     // Key data
     glm::vec3 t;
     glm::quat quat;
-    glm::vec3 theta;
 };
 
 #endif //ANIMATED_SKELETON_BONE_H

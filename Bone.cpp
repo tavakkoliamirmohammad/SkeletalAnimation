@@ -8,11 +8,10 @@ void Bone::rotate(glm::vec3 theta) {
     this->mi_l = glm::rotate(this->mi_l, theta.x, glm::vec3(1, 0, 0));
 
     this->quat = glm::quat_cast(this->mi_l);
-    this->theta = theta;
 }
 
 glm::vec3 Bone::getTheta() {
-    return this->theta;
+    return glm::eulerAngles(quat);
 }
 
 void Bone::calculate_mi_d() {
