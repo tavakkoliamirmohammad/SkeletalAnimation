@@ -27,13 +27,13 @@ public:
 
     void calculate_bone_endpoints(glm::vec3 &p1, glm::vec3 &p2);
 
-    glm::vec3 transform_forward_kinematics(glm::vec3 vertex);
+    glm::vec3 transform(glm::vec3 vertex);
 
-    glm::vec3 transform_from_bonespace_animated(glm::vec3 vertex);
+    glm::vec3 transform_from_bonespace(glm::vec3 vertex);
 
     glm::vec3 transform_from_bonespace_animated_without_local_transformation(glm::vec3 vertex);
 
-    glm::vec3 transform_from_bonespace_default_pose(glm::vec3 vertex);
+    glm::vec3 transform_from_orig_bonespace(glm::vec3 vertex);
 
     glm::vec3 getTheta();
 

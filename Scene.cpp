@@ -64,7 +64,7 @@ void Scene::inverseKinematic(glm::vec2 pos) {
     auto target = glm::vec3(pos.x, pos.y, 1);
     Bone *endEffectorBone = this->getBone(this->getCount() - 1);
     glm::vec3 animatedEndEffector;
-    animatedEndEffector = endEffectorBone->transform_from_bonespace_animated(
+    animatedEndEffector = endEffectorBone->transform_from_bonespace(
             glm::vec3(endEffectorBone->getLength(), 0, 0));
 
     auto boneNames = skeleton->getBoneNames();
@@ -74,9 +74,9 @@ void Scene::inverseKinematic(glm::vec2 pos) {
     while (glm::length(target - animatedEndEffector) >= 3 && iteration++ < 4) {
         for (const auto &boneName : boneNames) {
             Bone *bone = this->getBone(boneName);
-            glm::vec3 boneStartPosition = bone->transform_from_bonespace_animated(glm::vec3(0, 0, 0));
+            glm::vec3 boneStartPosition = bone->transform_from_bonespace(glm::vec3(0, 0, 0));
 
-            glm::vec3 endEffectorPosition = endEffectorBone->transform_from_bonespace_animated(
+            glm::vec3 endEffectorPosition = endEffectorBone->transform_from_bonespace(
                     glm::vec3(endEffectorBone->getLength(), 0, 0));
 
             auto u = glm::length(endEffectorPosition - boneStartPosition);
@@ -122,8 +122,8 @@ void Scene::update() {
 
         glm::vec3 default_pos = glm::vec3(vert.default_x, vert.default_y, 1);
 
-        glm::vec3 pos1 = bone1->transform_forward_kinematics(default_pos);
-        glm::vec3 pos2 = bone2->transform_forward_kinematics(default_pos);
+        glm::vec3 pos1 = bone1->transform(default_pos);
+        glm::vec3 pos2 = bone2->transform(default_pos);
 
         vert.animated_x = pos1.x * vert.bone_weight1 + pos2.x * vert.bone_weight2;
         vert.animated_y = pos1.y * vert.bone_weight1 + pos2.y * vert.bone_weight2;
@@ -148,8 +148,8 @@ void Scene::render() {
 
         bone->calculate_bone_endpoints(startPoint, endPoint);
 
-        topPoint = bone->transform_from_bonespace_animated(topPoint);
-        bottomPoint = bone->transform_from_bonespace_animated(bottomPoint);
+        topPoint = bone->transform_from_bonespace(topPoint);
+        bottomPoint = bone->transform_from_bonespace(bottomPoint);
 
         if (bone == selectedBone) {
             glLineWidth(4);

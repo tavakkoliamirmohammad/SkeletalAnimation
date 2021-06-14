@@ -49,19 +49,19 @@ void Bone::calculate_bone_endpoints(glm::vec3 &p1, glm::vec3 &p2) {
     p2 = glm::vec3(v2.x / v2.w, v2.y / v2.w, v2.z / v2.w);
 }
 
-glm::vec3 Bone::transform_forward_kinematics(glm::vec3 vertex) {
+glm::vec3 Bone::transform(glm::vec3 vertex) {
     glm::mat4 m_i = this->mi_a * glm::inverse(this->mi_d);
     auto v = m_i * glm::vec4(vertex, 1);
 
     return glm::vec3(v.x / v.w, v.y / v.w, v.z / v.w);
 }
 
-glm::vec3 Bone::transform_from_bonespace_animated(glm::vec3 vertex) {
+glm::vec3 Bone::transform_from_bonespace(glm::vec3 vertex) {
     glm::vec4 v = this->mi_a * glm::vec4(vertex, 1);
     return glm::vec3(v.x / v.w, v.y / v.w, v.z / v.w);
 }
 
-glm::vec3 Bone::transform_from_bonespace_default_pose(glm::vec3 vertex) {
+glm::vec3 Bone::transform_from_orig_bonespace(glm::vec3 vertex) {
     glm::vec4 v = this->mi_d * glm::vec4(vertex, 1);
     return glm::vec3(v.x / v.w, v.y / v.w, v.z / v.w);
 }
